@@ -26,6 +26,9 @@ function run()
     macroUpdate('!faerieRogue', 4,
                 {133252, 133242, 133269, 133259}, 133272,
                 '#showtooltips\n/cast [@arena%d]Faerie Fire(Rank 1)')
+    macroUpdate('!pounceRogue', 4,
+                {133251, 133241, 133268, 133258}, 133271,
+                '#showtooltips\n/cast [@arena%d]Pounce')
 end
 
 local arenaMacroAssistant = CreateFrame('Frame')
