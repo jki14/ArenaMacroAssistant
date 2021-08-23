@@ -25,10 +25,10 @@ function run()
     -- chatmsg(' on update')
     macroUpdate('!faerieRogue', 4,
                 {133252, 133242, 133269, 133259}, 133272,
-                '#showtooltips\n/cast [@arena%d]Faerie Fire(Rank 1)')
+                '#showtooltips\n/cast [@arena%d]Faerie Fire(Rank 1)\n/use Zapthrottle Mote Extractor')
     macroUpdate('!pounceRogue', 4,
                 {133251, 133241, 133268, 133258}, 133271,
-                '#showtooltips\n/cast [@arena%d]Pounce')
+                '#showtooltips Discombobulator Ray\n/cast [@arena%d]Pounce\n/use Discombobulator Ray')
 end
 
 local arenaMacroAssistant = CreateFrame('Frame')
