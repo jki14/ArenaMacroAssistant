@@ -2,6 +2,6 @@
 ## Title: ArenaMacroAssistant
 ## Notes: Automatically maintain arena opponent class specific macros.
 ## Author: 依然活着@CN5比格沃斯(H) (jki14wz@gmail.com)
-## Version: 0.42
+## Version: 0.43
 
 ArenaMacroAssistant.lua

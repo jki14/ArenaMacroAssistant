@@ -3,7 +3,7 @@ function chatmsg(text)
 end
 
 function macroEdit(name, id, icons, iconFallback, body)
-    local body = string.format(body, id)
+    local body = string.gsub(body, '%%d', tostring(id))
     local icon = icons[id] or iconFallback
     return EditMacro(name, nil, icon, body)
 end
