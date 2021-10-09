@@ -2,23 +2,38 @@ function chatmsg(text)
     DEFAULT_CHAT_FRAME:AddMessage('|cFFFF7C0A[ArenaMacroAssistant]' .. text)
 end
 
+function macroEdit(name, id, icons, iconFallback, body)
+    local body = string.format(body, id)
+    local icon = icons[id] or iconFallback
+    return EditMacro(name, nil, icon, body)
+end
+
 function macroUpdate(name, classId, icons, iconFallback, body)
     for i = 1, 5 do
         local cid = select(3, UnitClass(string.format('arena%d',i)))
-        if not cid or cid == classId then
+        if cid and cid == classId then
             local function handler()
-                if EditMacro(name, nil,
-                                 icons[i] or iconFallback,
-                                 string.format(body, i)) then
-                    -- chatmsg(' updated')
-                else
+                if not macroEdit(name, i, icons, iconFallback, body) then
                     C_Timer.After(0.2, handler)
                 end
             end
             C_Timer.After(0.2, handler)
-            break
+            return true
         end
     end
+    for i = 1, 5 do
+        local cid = select(3, UnitClass(string.format('arena%d',i)))
+        if not cid then
+            local function handler()
+                if not macroEdit(name, i, icons, iconFallback, body) then
+                    C_Timer.After(0.2, handler)
+                end
+            end
+            C_Timer.After(0.2, handler)
+            return true
+        end
+    end
+    return false
 end
 
 function run()
