@@ -74,11 +74,11 @@ arenaMacroAssistantOpponent:RegisterEvent('ARENA_OPPONENT_UPDATE')
 arenaMacroAssistantOpponent:SetScript('OnEvent', runOpponent)
 
 function runTeam()
-    macroUpdateTeam('!abolishPriest', 5, {134082, 134113, 134079}, 134110,
+    macroUpdateTeam('!abolishPriest', 5, {136068, 134114, 134080}, 134111,
                     '#showtooltips Abolish Poison\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help]Abolish Poison;Soothe Animal')
     local curseList = {2, 7, 5, 9}
     for i = 1, #curseList do
-        if macroUpdateTeam('!removePaladin', curseList[i], {134082, 134113, 134079}, 134110,
+        if macroUpdateTeam('!removePaladin', curseList[i], {135952, 134113, 134079}, 134110,
                            '#showtooltips Remove Curse\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help][@targettarget,help]Remove Curse') then
             break
         end
