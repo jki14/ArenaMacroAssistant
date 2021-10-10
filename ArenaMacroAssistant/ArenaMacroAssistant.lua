@@ -71,7 +71,9 @@ end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
 arenaMacroAssistantOpponent:RegisterEvent('ARENA_OPPONENT_UPDATE')
-arenaMacroAssistantOpponent:SetScript('OnEvent', runOpponent)
+arenaMacroAssistantOpponent:SetScript('OnEvent', function()
+    C_Timer.After(0.2, runOpponent)
+end)
 
 function runTeam()
     macroUpdateTeam('!abolishPriest', 5, {136068, 134114, 134080}, 134111,
@@ -88,4 +90,6 @@ end
 local arenaMacroAssistantTeam = CreateFrame('Frame')
 arenaMacroAssistantTeam:RegisterEvent('ARENA_TEAM_UPDATE')
 arenaMacroAssistantTeam:RegisterEvent('GROUP_ROSTER_UPDATE')
-arenaMacroAssistantTeam:SetScript('OnEvent', runTeam)
+arenaMacroAssistantTeam:SetScript('OnEvent', function()
+    C_Timer.After(0.2, runTeam)
+end)
