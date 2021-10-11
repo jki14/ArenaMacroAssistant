@@ -21,18 +21,21 @@ function macroUpdateOpponent(name, classId, icons, iconFallback, body)
             return true
         end
     end
-    for i = 1, 5 do
-        local cid = select(3, UnitClass(string.format('arena%d',i)))
-        if not cid then
-            local function handler()
-                if not macroEdit(name, i, icons, iconFallback, body) then
-                    C_Timer.After(0.2, handler)
+    if classId == 3 or classId == 11 then
+        for i = 1, 5 do
+            local cid = select(3, UnitClass(string.format('arena%d',i)))
+            if not cid then
+                local function handler()
+                    if not macroEdit(name, i, icons, iconFallback, body) then
+                        C_Timer.After(0.2, handler)
+                    end
                 end
+                C_Timer.After(0.2, handler)
+                return true
             end
-            C_Timer.After(0.2, handler)
-            return true
         end
     end
+    macroEdit(name, 1, icons, iconFallback, body)
     return false
 end
 
@@ -55,6 +58,20 @@ function runOpponent()
     macroUpdateOpponent('!pounceRogue', 4,
                         {133251, 133241, 133268, 133258}, 133271,
                         '#showtooltips Discombobulator Ray\n/cast [@arena%d]Pounce\n/use Discombobulator Ray')
+    local mageList = {8, 9, 11}
+    for i = 1, #mageList do
+        if macroUpdateOpponent('!chargeMage', mageList[i], {132219, 134135, 133267, 134116}, 133270,
+                               '#showtooltips Feral Charge\n/cast [nostance:1/3,mod:alt][nostance:1,nomod:alt]Dire Bear Form\n/use [mod:alt]Skull of Impending Doom\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge') then
+            break
+        end
+    end
+    local priestList = {2, 7, 5, 11}
+    for i = 1, #priestList do
+        if macroUpdateOpponent('!chargePriest', priestList[i], {132938, 134135, 133267, 134116}, 133270,
+                               '#showtooltips Feral Charge\n/cast [@focus,help]Regrowth;[nostance:1]Dire Bear Form\n/cast [@arena%d]Feral Charge') then
+            break
+        end
+    end
 end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
@@ -66,9 +83,9 @@ end)
 function runTeam()
     macroUpdateTeam('!abolishPriest', 5, {136068, 134114, 134080}, 134111,
                     '#showtooltips Abolish Poison\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help]Abolish Poison;Soothe Animal')
-    local curseList = {2, 7, 5, 9}
-    for i = 1, #curseList do
-        if macroUpdateTeam('!removePaladin', curseList[i], {135952, 134113, 134079}, 134110,
+    local paladinList = {2, 7, 5, 9}
+    for i = 1, #paladinList do
+        if macroUpdateTeam('!removePaladin', paladinList[i], {135952, 134113, 134079}, 134110,
                            '#showtooltips Remove Curse\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help][@targettarget,help]Remove Curse') then
             break
         end
