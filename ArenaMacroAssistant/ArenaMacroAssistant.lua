@@ -1,8 +1,6 @@
---[[
 function chatmsg(text)
     DEFAULT_CHAT_FRAME:AddMessage('|cFFFF7C0A[ArenaMacroAssistant]' .. text)
 end
-]]--
 
 function macroEdit(name, id, icons, iconFallback, body)
     local body = string.gsub(body, '%%d', tostring(id))
@@ -42,21 +40,11 @@ function macroUpdateTeam(name, classId, icons, iconFallback, body)
     for i = 1, 4 do
         local cid = select(3, UnitClass(string.format('party%d',i)))
         if cid and cid == classId then
-            local function handler()
-                if not macroEdit(name, i, icons, iconFallback, body) then
-                    C_Timer.After(0.2, handler)
-                end
-            end
-            C_Timer.After(0.2, handler)
+            macroEdit(name, i, icons, iconFallback, body)
             return true
         end
     end
-    local function handler()
-        if not macroEdit(name, 1, icons, iconFallback, body) then
-            C_Timer.After(0.2, handler)
-        end
-    end
-    C_Timer.After(0.2, handler)
+    macroEdit(name, 1, icons, iconFallback, body)
     return false
 end
 
