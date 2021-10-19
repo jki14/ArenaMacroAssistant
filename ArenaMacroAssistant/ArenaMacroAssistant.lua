@@ -10,7 +10,7 @@ end
 
 function macroUpdateOpponent(name, classId, icons, iconFallback, body)
     for i = 1, 5 do
-        local cid = select(3, UnitClass(string.format('arena%d',i)))
+        local cid = select(3, UnitClass(string.format('arena%d', i)))
         if cid and cid == classId then
             local function handler()
                 if not macroEdit(name, i, icons, iconFallback, body) then
@@ -23,7 +23,7 @@ function macroUpdateOpponent(name, classId, icons, iconFallback, body)
     end
     if classId == 3 or classId == 11 then
         for i = 1, 5 do
-            local cid = select(3, UnitClass(string.format('arena%d',i)))
+            local cid = select(3, UnitClass(string.format('arena%d', i)))
             if not cid then
                 local function handler()
                     if not macroEdit(name, i, icons, iconFallback, body) then
@@ -41,7 +41,7 @@ end
 
 function macroUpdateTeam(name, classId, icons, iconFallback, body)
     for i = 1, 4 do
-        local cid = select(3, UnitClass(string.format('party%d',i)))
+        local cid = select(3, UnitClass(string.format('party%d', i)))
         if cid and cid == classId then
             macroEdit(name, i, icons, iconFallback, body)
             return true
