@@ -8,17 +8,21 @@ function macroEdit(name, id, icons, iconFallback, body)
     return EditMacro(name, nil, icon, body)
 end
 
-function macroUpdateOpponent(name, classId, icons, iconFallback, body)
+function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
     for i = 1, 5 do
-        local cid = select(3, UnitClass(string.format('arena%d', i)))
+        local token = string.format('arena%d', i)
+        local cid = select(3, UnitClass(token))
+        local mana = UnitPowerMax(token, 0)
         if cid and cid == classId then
-            local function handler()
-                if not macroEdit(name, i, icons, iconFallback, body) then
-                    C_Timer.After(0.2, handler)
+            if not manaBar or (mana and mana >= manaBar) then
+                local function handler()
+                    if not macroEdit(name, i, icons, iconFallback, body) then
+                        C_Timer.After(0.2, handler)
+                    end
                 end
+                C_Timer.After(0.2, handler)
+                return true
             end
-            C_Timer.After(0.2, handler)
-            return true
         end
     end
     if classId == 3 or classId == 11 then
@@ -52,22 +56,23 @@ function macroUpdateTeam(name, classId, icons, iconFallback, body)
 end
 
 function runOpponent()
-    macroUpdateOpponent('!faerieRogue', 4,
+    macroUpdateOpponent('!faerieRogue', 4, nil,
                         {133252, 133242, 133269, 133259}, 133272,
                         '#showtooltips\n/cast [@arena%d]Faerie Fire(Rank 1)\n/use Zapthrottle Mote Extractor')
-    macroUpdateOpponent('!pounceRogue', 4,
+    macroUpdateOpponent('!pounceRogue', 4, nil,
                         {133251, 133241, 133268, 133258}, 133271,
                         '#showtooltips Discombobulator Ray\n/cast [@arena%d]Pounce\n/use Discombobulator Ray')
     local mageList = {8, 9, 11}
     for i = 1, #mageList do
-        if macroUpdateOpponent('!chargeMage', mageList[i], {132219, 134135, 133267, 134116}, 133270,
+        if macroUpdateOpponent('!chargeMage', mageList[i], nil, {132219, 134135, 133267, 134116}, 133270,
                                '#showtooltips Feral Charge\n/cast [nostance:1/3,mod:alt][nostance:1,nomod:alt]Dire Bear Form\n/use [mod:alt]Skull of Impending Doom\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge') then
             break
         end
     end
     local priestList = {2, 7, 5, 11}
+    local priestMana = {8000, 8000, nil, nil}
     for i = 1, #priestList do
-        if macroUpdateOpponent('!chargePriest', priestList[i], {132938, 134135, 133267, 134116}, 133270,
+        if macroUpdateOpponent('!chargePriest', priestList[i], priestMana[i], {132938, 134135, 133267, 134116}, 133270,
                                '#showtooltips Feral Charge\n/cast [@focus,help]Regrowth;[nostance:1]Dire Bear Form\n/cast [@arena%d]Feral Charge') then
             break
         end
