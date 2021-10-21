@@ -82,7 +82,7 @@ end
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
 arenaMacroAssistantOpponent:RegisterEvent('ARENA_OPPONENT_UPDATE')
 arenaMacroAssistantOpponent:SetScript('OnEvent', function()
-    C_Timer.After(0.2, runOpponent)
+    C_Timer.After(0.4, runOpponent)
 end)
 
 function runTeam()
