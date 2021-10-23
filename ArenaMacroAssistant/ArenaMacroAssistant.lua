@@ -56,27 +56,9 @@ function macroUpdateTeam(name, classId, icons, iconFallback, body)
 end
 
 function runOpponent()
-    macroUpdateOpponent('!faerieRogue', 4, nil,
+    macroUpdateOpponent('!bangFelhunter', 9, nil,
                         {133252, 133242, 133269, 133259}, 133272,
-                        '#showtooltips\n/cast [@arena%d]Faerie Fire(Rank 1)\n/use Zapthrottle Mote Extractor')
-    macroUpdateOpponent('!pounceRogue', 4, nil,
-                        {133251, 133241, 133268, 133258}, 133271,
-                        '#showtooltips Discombobulator Ray\n/cast [@arena%d]Pounce\n/use Discombobulator Ray')
-    local mageList = {8, 9, 11}
-    for i = 1, #mageList do
-        if macroUpdateOpponent('!chargeMage', mageList[i], nil, {132219, 134135, 133267, 134116}, 133270,
-                               '#showtooltips Feral Charge\n/cast [nostance:1/3,mod:alt][nostance:1,nomod:alt]Dire Bear Form\n/use [mod:alt]Skull of Impending Doom\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge') then
-            break
-        end
-    end
-    local priestList = {2, 7, 5, 11}
-    local priestMana = {8000, 8000, nil, nil}
-    for i = 1, #priestList do
-        if macroUpdateOpponent('!chargePriest', priestList[i], priestMana[i], {132938, 134135, 133267, 134116}, 133270,
-                               '#showtooltips Feral Charge\n/cast [@focus,help]Regrowth;[nostance:1]Dire Bear Form\n/cast [@arena%d]Feral Charge') then
-            break
-        end
-    end
+                        '#showtooltip\n/castsequence [harm,@arenapet%d][]reset=5 超度邪恶,驱邪术,神圣愤怒\n/startattack')
 end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
@@ -86,15 +68,7 @@ arenaMacroAssistantOpponent:SetScript('OnEvent', function()
 end)
 
 function runTeam()
-    macroUpdateTeam('!abolishPriest', 5, {136068, 134114, 134080}, 134111,
-                    '#showtooltips Abolish Poison\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help]Abolish Poison;Soothe Animal')
-    local paladinList = {2, 7, 5, 9}
-    for i = 1, #paladinList do
-        if macroUpdateTeam('!removePaladin', paladinList[i], {135952, 134113, 134079}, 134110,
-                           '#showtooltips Remove Curse\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help][@targettarget,help]Remove Curse') then
-            break
-        end
-    end
+    return false
 end
 
 local arenaMacroAssistantTeam = CreateFrame('Frame')
