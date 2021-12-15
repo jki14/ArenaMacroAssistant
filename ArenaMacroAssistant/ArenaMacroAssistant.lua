@@ -25,7 +25,7 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
             end
         end
     end
-    if classId == 3 or classId == 11 then
+    if classId == 4 or classId == 11 then
         for i = 1, 5 do
             local cid = select(3, UnitClass(string.format('arena%d', i)))
             if not cid then
