@@ -61,7 +61,7 @@ function runOpponent()
                         '#showtooltips\n/cast [harm,@arena%d]腐蚀术\n/cast [harm,@arena%d]吞噬魔法')
     macroUpdateOpponent('!faerieRogue', 4, nil,
                         {133252, 133242, 133269, 133259}, 133272,
-                        '#showtooltips\n/cast [@arena%d,stance:3,stealth]突袭\n/cast [@arena%d]精灵之火(等级 1)')
+                        '#showtooltips\n/cast [@arena%d]精灵之火(等级 1)')
 end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
