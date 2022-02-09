@@ -70,7 +70,7 @@ function runOpponent()
         end
     end
     local priestList = {2, 7, 5, 11}
-    local priestMana = {8000, 8000, nil, nil}
+    local priestMana = {9000, 9000, nil, nil}
     for i = 1, #priestList do
         if macroUpdateOpponent('!chargePriest', priestList[i], priestMana[i], {132938, 134135, 133267, 134116}, 133270,
                                '#showtooltips Feral Charge\n/cast [@focus,help]Regrowth;[nostance:1]Dire Bear Form\n/cast [@arena%d]Feral Charge') then
