@@ -43,12 +43,16 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
     return false
 end
 
-function macroUpdateTeam(name, classId, icons, iconFallback, body)
+function macroUpdateTeam(name, classId, manaBar, icons, iconFallback, body)
     for i = 1, 4 do
-        local cid = select(3, UnitClass(string.format('party%d', i)))
+        local token = string.format('party%d', i)
+        local cid = select(3, UnitClass(token))
+        local mana = UnitPowerMax(token, 0)
         if cid and cid == classId then
-            macroEdit(name, i, icons, iconFallback, body)
-            return true
+            if not manaBar or (mana and mana >= manaBar) then
+                macroEdit(name, i, icons, iconFallback, body)
+                return true
+            end
         end
     end
     macroEdit(name, 1, icons, iconFallback, body)
@@ -86,11 +90,12 @@ arenaMacroAssistantOpponent:SetScript('OnEvent', function()
 end)
 
 function runTeam()
-    macroUpdateTeam('!abolishPriest', 5, {136068, 134114, 134080}, 134111,
+    macroUpdateTeam('!abolishPriest', 5, nil, {136068, 134114, 134080}, 134111,
                     '#showtooltips Abolish Poison\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help]Abolish Poison;Soothe Animal')
     local paladinList = {2, 7, 5, 9}
+    local paladinMana = {9000, 9000, nil, nil}
     for i = 1, #paladinList do
-        if macroUpdateTeam('!removePaladin', paladinList[i], {135952, 134113, 134079}, 134110,
+        if macroUpdateTeam('!removePaladin', paladinList[i], paladinMana[i], {135952, 134113, 134079}, 134110,
                            '#showtooltips Remove Curse\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help][@targettarget,help]Remove Curse') then
             break
         end
