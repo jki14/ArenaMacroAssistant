@@ -43,6 +43,29 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
     return false
 end
 
+function macroUpdateCurse()
+    local meeles = { }
+    meeles[1] = 'Warrior'
+    meeles[3] = 'Hunter'
+    meeles[4] = 'Rogue'
+    for i = 1, 5 do
+        local name = string.format('!curse%d', i)
+        local token = string.format('arena%d', i)
+        local cid = select(3, UnitClass(token))
+        local mana = UnitPowerMax(token, 0)
+        local body = '/cast [@arena%d]语言诅咒'
+        if not cid or meeles[cid] or (mana and mana < 8000) then
+            body = '/cast [@arena%d]疲劳诅咒'
+        end
+        local function handler()
+            if not macroEdit(name, i, {}, nil, body) then
+                C_Timer.After(0.2, handler)
+            end
+        end
+        C_Timer.After(0.2, handler)
+    end
+end
+
 function macroUpdateTeam(name, classId, icons, iconFallback, body)
     for i = 1, 4 do
         local cid = select(3, UnitClass(string.format('party%d', i)))
@@ -62,6 +85,7 @@ function runOpponent()
     macroUpdateOpponent('!faerieRogue', 4, nil,
                         {133252, 133242, 133269, 133259}, 133272,
                         '#showtooltips\n/cast [@arena%d]精灵之火(等级 1)')
+    macroUpdateCurse()
 end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
