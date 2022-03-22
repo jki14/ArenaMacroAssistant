@@ -85,6 +85,9 @@ function runOpponent()
     macroUpdateOpponent('!faerieRogue', 4, nil,
                         {133252, 133242, 133269, 133259}, 133272,
                         '#showtooltips\n/cast [@arena%d]精灵之火(等级 1)')
+    macroUpdateOpponent('!lockMage', 8, nil,
+                        {133251, 133241, 133268, 133258}, 133271
+                        '#showtooltips\n/cast [@arena%d]法术封锁')
     macroUpdateCurse()
 end
 
