@@ -24,6 +24,9 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
                 return true
             end
         end
+        if not UnitExists(string.format('party%d', i)) then
+            break
+        end
     end
     if classId == 4 or classId == 11 then
         for i = 1, 5 do
@@ -37,6 +40,9 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
                 C_Timer.After(0.2, handler)
                 return true
             end
+        end
+        if not UnitExists(string.format('party%d', i)) then
+            break
         end
     end
     macroEdit(name, 1, icons, iconFallback, body)
