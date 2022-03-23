@@ -40,9 +40,9 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
                 C_Timer.After(0.2, handler)
                 return true
             end
-        end
-        if not UnitExists(string.format('party%d', i)) then
-            break
+            if not UnitExists(string.format('party%d', i)) then
+                break
+            end
         end
     end
     macroEdit(name, 1, icons, iconFallback, body)
