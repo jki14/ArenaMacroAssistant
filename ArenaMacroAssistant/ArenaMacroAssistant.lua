@@ -1,3 +1,5 @@
+local teamSize = 5
+
 function chatmsg(text)
     DEFAULT_CHAT_FRAME:AddMessage('|cFFFF7C0A[ArenaMacroAssistant]' .. text)
 end
@@ -9,7 +11,7 @@ function macroEdit(name, id, icons, iconFallback, body)
 end
 
 function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
-    for i = 1, 5 do
+    for i = 1, teamSize do
         local token = string.format('arena%d', i)
         local cid = select(3, UnitClass(token))
         local mana = UnitPowerMax(token, 0)
@@ -24,12 +26,9 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
                 return true
             end
         end
-        if not UnitExists(string.format('party%d', i)) then
-            break
-        end
     end
     if classId == 4 or classId == 11 then
-        for i = 1, 5 do
+        for i = 1, teamSize do
             local cid = select(3, UnitClass(string.format('arena%d', i)))
             if not cid then
                 local function handler()
@@ -39,9 +38,6 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
                 end
                 C_Timer.After(0.2, handler)
                 return true
-            end
-            if not UnitExists(string.format('party%d', i)) then
-                break
             end
         end
     end
@@ -90,8 +86,13 @@ function runOpponent()
 end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
+arenaMacroAssistantOpponent:RegisterEvent('UPDATE_BATTLEFIELD_STATUS')
 arenaMacroAssistantOpponent:RegisterEvent('ARENA_OPPONENT_UPDATE')
-arenaMacroAssistantOpponent:SetScript('OnEvent', function()
+arenaMacroAssistantOpponent:SetScript('OnEvent', function(self, event, ...)
+    if event == 'UPDATE_BATTLEFIELD_STATUS' then
+        local index = select(1, ...)
+        teamSize = select(6, GetBattlefieldStatus(index)) or 5
+    end
     C_Timer.After(0.5, runOpponent)
 end)
 
