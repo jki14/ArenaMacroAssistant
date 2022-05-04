@@ -86,6 +86,7 @@ function runOpponent()
 end
 
 local arenaMacroAssistantOpponent = CreateFrame('Frame')
+arenaMacroAssistantOpponent:RegisterEvent('PLAYER_ENTERING_WORLD')
 arenaMacroAssistantOpponent:RegisterEvent('UPDATE_BATTLEFIELD_STATUS')
 arenaMacroAssistantOpponent:RegisterEvent('ARENA_OPPONENT_UPDATE')
 arenaMacroAssistantOpponent:SetScript('OnEvent', function(self, event, ...)
@@ -110,6 +111,7 @@ function runTeam()
 end
 
 local arenaMacroAssistantTeam = CreateFrame('Frame')
+arenaMacroAssistantTeam:RegisterEvent('PLAYER_ENTERING_WORLD')
 arenaMacroAssistantTeam:RegisterEvent('ARENA_TEAM_UPDATE')
 arenaMacroAssistantTeam:RegisterEvent('GROUP_ROSTER_UPDATE')
 arenaMacroAssistantTeam:SetScript('OnEvent', function()
