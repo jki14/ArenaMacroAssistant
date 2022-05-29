@@ -46,10 +46,24 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
 end
 
 function macroUpdateCurse()
+    local function getTalentSpent(spellId)
+        local keyName = GetSpellInfo(spellId)
+        for tabIndex = 1, GetNumTalentTabs() do
+            for i = 1, GetNumTalents(tabIndex) do
+                local name, _, _, _, spent = GetTalentInfo(tabIndex, i)
+                if name == keyName then
+                    return spent
+                end
+            end
+        end
+        return 0
+    end
+
     local meeles = { }
     meeles[1] = 'Warrior'
     meeles[3] = 'Hunter'
     meeles[4] = 'Rogue'
+    local meelebody = getTalentSpent(18223) > 0 and '/cast [@arena%d]疲劳诅咒' or '/cast [@arena%d]虚弱诅咒'
     for i = 1, 5 do
         local name = string.format('!curse%d', i)
         local token = string.format('arena%d', i)
@@ -57,7 +71,7 @@ function macroUpdateCurse()
         local mana = UnitPowerMax(token, 0)
         local body = '/cast [@arena%d]语言诅咒'
         if not cid or meeles[cid] or (mana and mana < 8000) then
-            body = '/cast [@arena%d]疲劳诅咒'
+            body = meelebody
         end
         local function handler()
             if not macroEdit(name, i, {}, nil, body) then
