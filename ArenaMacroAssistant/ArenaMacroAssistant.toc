@@ -1,7 +1,7 @@
-## Interface: 20501
+## Interface: 30400
 ## Title: ArenaMacroAssistant
 ## Notes: Automatically maintain arena opponent class specific macros.
 ## Author: 依然活着@CN5比格沃斯(H) (jki14wz@gmail.com)
-## Version: 0.79
+## Version: 1.80
 
 ArenaMacroAssistant.lua

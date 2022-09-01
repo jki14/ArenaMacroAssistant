@@ -71,7 +71,7 @@ function runOpponent()
     local mageList = {8, 9, 11}
     for i = 1, #mageList do
         if macroUpdateOpponent('!chargeMage', mageList[i], nil, {132219, 134135, 133267, 134116}, 133270,
-                               '#showtooltips Feral Charge\n/cast [nostance:1/3,mod:alt][nostance:1,nomod:alt]Dire Bear Form\n/use [mod:alt]Skull of Impending Doom\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge') then
+                               '#showtooltips Feral Charge - Bear\n/cast [nostance:1/3,mod:alt][nostance:1,nomod:alt]Dire Bear Form\n/use [mod:alt]Skull of Impending Doom\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge - Bear') then
             break
         end
     end
@@ -79,7 +79,7 @@ function runOpponent()
     local priestMana = {9000, 9000, nil, nil}
     for i = 1, #priestList do
         if macroUpdateOpponent('!chargePriest', priestList[i], priestMana[i], {132938, 134135, 133267, 134116}, 133270,
-                               '#showtooltips Feral Charge\n/cast [@focus,help]Regrowth;[nostance:1]Dire Bear Form\n/cast [@arena%d]Feral Charge') then
+                               '#showtooltips Feral Charge - Bear\n/cast [@focus,help]Regrowth;[nostance:1]Dire Bear Form\n/cast [@arena%d]Feral Charge - Bear') then
             break
         end
     end
