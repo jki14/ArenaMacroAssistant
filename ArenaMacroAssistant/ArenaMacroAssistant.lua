@@ -63,7 +63,7 @@ function macroUpdateCurse()
     meeles[1] = 'Warrior'
     meeles[3] = 'Hunter'
     meeles[4] = 'Rogue'
-    meeles[5] = 'DeathKnight'
+    meeles[6] = 'DeathKnight'
     local meelebody = getTalentSpent(18223) > 0 and '/cast [@arena%d]语言诅咒' or '/cast [@arena%d]虚弱诅咒'
     for i = 1, 5 do
         local name = string.format('!curse%d', i)
