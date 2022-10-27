@@ -7,7 +7,7 @@ end
 function macroEdit(name, id, icons, iconFallback, body)
     local body = string.gsub(body, '%%d', tostring(id))
     local icon = icons[id] or iconFallback
-    return EditMacro(name, nil, icon, body)
+    return not InCombatLockdown() and EditMacro(name, nil, icon, body)
 end
 
 function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
