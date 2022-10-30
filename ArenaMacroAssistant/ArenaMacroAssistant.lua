@@ -1,43 +1,50 @@
 local teamSize = 5
 
-function chatmsg(text)
+local function chatmsg(text)
     DEFAULT_CHAT_FRAME:AddMessage('|cFFFF7C0A[ArenaMacroAssistant]' .. text)
 end
 
-function macroEdit(name, id, icons, iconFallback, body)
+local function inArena()
+    local inInstance, instanceType = IsInInstance()
+    return inInstance and 'arena' == instanceType
+end
+
+local function macroEdit(name, id, icons, iconFallback, body)
     local body = string.gsub(body, '%%d', tostring(id))
     local icon = icons[id] or iconFallback
     return not InCombatLockdown() and EditMacro(name, nil, icon, body)
 end
 
-function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
-    for i = 1, teamSize do
-        local token = string.format('arena%d', i)
-        local cid = select(3, UnitClass(token))
-        local mana = UnitPowerMax(token, 0)
-        if cid and cid == classId then
-            if not manaBar or (mana and mana >= manaBar) then
-                local function handler()
-                    if not macroEdit(name, i, icons, iconFallback, body) then
-                        C_Timer.After(0.2, handler)
-                    end
-                end
-                C_Timer.After(0.2, handler)
-                return true
-            end
-        end
-    end
-    if classId == 4 or classId == 11 then
+local function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
+    if inArena() then
         for i = 1, teamSize do
-            local cid = select(3, UnitClass(string.format('arena%d', i)))
-            if not cid then
-                local function handler()
-                    if not macroEdit(name, i, icons, iconFallback, body) then
-                        C_Timer.After(0.2, handler)
+            local token = string.format('arena%d', i)
+            local cid = select(3, UnitClass(token))
+            local mana = UnitPowerMax(token, 0)
+            if cid and cid == classId then
+                if not manaBar or (mana and mana >= manaBar) then
+                    local function handler()
+                        if not macroEdit(name, i, icons, iconFallback, body) then
+                            C_Timer.After(0.2, handler)
+                        end
                     end
+                    C_Timer.After(0.2, handler)
+                    return true
                 end
-                C_Timer.After(0.2, handler)
-                return true
+            end
+        end
+        if classId == 4 or classId == 11 then
+            for i = 1, teamSize do
+                local cid = select(3, UnitClass(string.format('arena%d', i)))
+                if not cid then
+                    local function handler()
+                        if not macroEdit(name, i, icons, iconFallback, body) then
+                            C_Timer.After(0.2, handler)
+                        end
+                    end
+                    C_Timer.After(0.2, handler)
+                    return true
+                end
             end
         end
     end
@@ -45,15 +52,17 @@ function macroUpdateOpponent(name, classId, manaBar, icons, iconFallback, body)
     return false
 end
 
-function macroUpdateTeam(name, classId, manaBar, icons, iconFallback, body)
-    for i = 1, 4 do
-        local token = string.format('party%d', i)
-        local cid = select(3, UnitClass(token))
-        local mana = UnitPowerMax(token, 0)
-        if cid and cid == classId then
-            if not manaBar or (mana and mana >= manaBar) then
-                macroEdit(name, i, icons, iconFallback, body)
-                return true
+local function macroUpdateTeam(name, classId, manaBar, icons, iconFallback, body)
+    if inArena() then
+        for i = 1, 4 do
+            local token = string.format('party%d', i)
+            local cid = select(3, UnitClass(token))
+            local mana = UnitPowerMax(token, 0)
+            if cid and cid == classId then
+                if not manaBar or (mana and mana >= manaBar) then
+                    macroEdit(name, i, icons, iconFallback, body)
+                    return true
+                end
             end
         end
     end
@@ -61,7 +70,7 @@ function macroUpdateTeam(name, classId, manaBar, icons, iconFallback, body)
     return false
 end
 
-function runOpponent()
+local function runOpponent()
     macroUpdateOpponent('!faerieRogue', 4, nil,
                         {133252, 133242, 133269, 133259}, 133272,
                         '#showtooltips\n/cast [@arena%d]Faerie Fire\n/use [nostealth]Zapthrottle Mote Extractor')
@@ -97,16 +106,20 @@ arenaMacroAssistantOpponent:SetScript('OnEvent', function(self, event, ...)
     C_Timer.After(0.5, runOpponent)
 end)
 
-function runTeam()
+local function runTeam()
     macroUpdateTeam('!abolishPriest', 5, nil, {136068, 134114, 134080}, 134111,
                     '#showtooltips Abolish Poison\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help]Abolish Poison;Soothe Animal')
-    local paladinList = {2, 7, 5, 9}
-    local paladinMana = {9000, 9000, nil, nil}
-    for i = 1, #paladinList do
-        if macroUpdateTeam('!removePaladin', paladinList[i], paladinMana[i], {135952, 134113, 134079}, 134110,
-                           '#showtooltips Remove Curse\n/cast [@player,mod:alt][@focus,help,mod:ctrl][@party%d,mod:ctrl][@target,help][@targettarget,help]Remove Curse') then
-            break
+    if inArena() then
+        local paladinList = {2, 7, 5, 9}
+        local paladinMana = {9000, 9000, nil, nil}
+        for i = 1, #paladinList do
+            if macroUpdateTeam('!removeBoots', paladinList[i], paladinMana[i], {135952, 134113, 134079}, 134110,
+                               '#showtooltips Remove Curse\n/cast [@focus,help][@party%d]Remove Curse') then
+                break
+            end
         end
+    else
+        macroEdit('!removeBoots', 1, {}, 132307, '#showtooltips\n/use 8')
     end
 end
 
