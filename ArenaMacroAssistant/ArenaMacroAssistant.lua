@@ -73,7 +73,7 @@ end
 local function runOpponent()
     macroUpdateOpponent('!faerieRogue', 4, nil,
                         {133252, 133242, 133269, 133259}, 133272,
-                        '#showtooltips\n/cast [@arena%d]Faerie Fire\n/use [nostealth]Zapthrottle Mote Extractor')
+                        '#showtooltips\n/cast [@arena%d,harm,stance:1/3]Faerie Fire (Feral);[@arena%d,harm]Faerie Fire')
     macroUpdateOpponent('!pounceRogue', 4, nil,
                         {133251, 133241, 133268, 133258}, 133271,
                         '#showtooltips Discombobulator Ray\n/cast [@arena%d]Pounce\n/use Discombobulator Ray')
