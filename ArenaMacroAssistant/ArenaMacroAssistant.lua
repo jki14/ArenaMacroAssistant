@@ -80,7 +80,7 @@ local function runOpponent()
     local mageList = {8, 9, 11}
     for i = 1, #mageList do
         if macroUpdateOpponent('!chargeMage', mageList[i], nil, {132219, 134135, 133267, 134116}, 133270,
-                               '#showtooltips Feral Charge - Bear\n/cast [nostance:1/3,mod:alt][nostance:1,nomod:alt]Dire Bear Form\n/use [mod:alt]Skull of Impending Doom\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge - Bear') then
+                               '#showtooltips Feral Charge - Bear\n/cast [nostance:1,nomod:alt]Dire Bear Form\n/use [@player,mod:alt]Cobalt Frag Bomb\n/cast [@focus,harm,mod:ctrl][@arena%d,mod:ctrl][nomod]Feral Charge - Bear') then
             break
         end
     end
